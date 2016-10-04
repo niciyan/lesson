@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>sample</title>
+    <script src="three.min.js"></script>
+    <script src="OrbitControls.js"></script>
+</head>
+<body>
+    <canvas id="mycanvas"></canvas>
+    <script>
+        var renderer = new THREE.WebGLRenderer({
+            canvas: document.getElementById('mycanvas'),
+            antialias: true
+        });
+        renderer.setClearColor('white');
+        renderer.setSize(window.innerWidth, window.innerHeight);
+
+
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight,
+                0.1, 1000);
+
+        var geometry = new THREE.TorusKnotGeometry( 2, 0.2 , 50, 3 );
+        var material = new THREE.MeshBasicMaterial({color:'blue', wireframe : true});
+        var knot = new THREE.Mesh(geometry, material);
+        scene.add(knot);
+
+        camera.position.z = 5;
+
+        var controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+        var render = function () {
+            requestAnimationFrame(render);
+
+            knot.rotation.y += 0.005;
+            controls.update();
+            renderer.render(scene, camera);
+        };
+
+        render();
+    </script>
+</body>
+</html>
